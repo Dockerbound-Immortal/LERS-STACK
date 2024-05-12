@@ -1,0 +1,31 @@
+version: '3.8'
+
+networks:
+  microservice-network:
+    external:
+      name: microservice-network
+  street-group-network:
+    external:
+      name: street-group-network
+
+services:
+
+  street-group-client:
+    build:
+      context: .
+      dockerfile: ${DOCKERFILE}
+    container_name: street-group-client
+    volumes:
+      - ./src:/opt/app/client/src
+      - /opt/app/client/node_modules
+    tty: true
+    stdin_open: true
+    environment:
+      CLIENT_PORT: ${STREET_GROUP_INTERNAL_PORT}
+      CHOKIDAR_USEPOLLING: true
+      LOCAL_HOST: '0.0.0.0' # Docker local host
+    ports:
+      - ${STREET_GROUP_EXTERNAL_PORT}:${STREET_GROUP_INTERNAL_PORT}
+    networks:
+      - microservice-network
+      - street-group-network

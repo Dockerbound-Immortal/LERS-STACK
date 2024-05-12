@@ -1,0 +1,53 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "overrides": [],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["prettier", "react", "@typescript-eslint"],
+  "rules": {
+    "indent": ["error", "tab"],
+    "quotes": ["error", "single"],
+    "prefer-const": ["error", { "destructuring": "all" }],
+    "semi": ["error", "always"],
+    "require-jsdoc": [
+      "error",
+      {
+        "require": {
+          "FunctionDeclaration": true,
+          "MethodDefinition": true,
+          "ClassDeclaration": true,
+          "ArrowFunctionExpression": true,
+          "FunctionExpression": true
+        }
+      }
+    ],
+    "max-len": ["error", { "code": 120, "ignoreUrls": true }],
+    "capitalized-comments": [
+      "error",
+      "always",
+      {
+        "ignorePattern": "pragma|ignored",
+        "ignoreInlineComments": true
+      }
+    ],
+    "no-duplicate-imports": ["error"],
+    "no-unused-vars": "warn",
+    "complexity": ["error", { "max": 3 }],
+    "prefer-arrow-callback": "error",
+    "no-console": "warn",
+    "react/react-in-jsx-scope": 0,
+    "no-multiple-empty-lines": ["error", { "max": 2, "maxBOF": 1}],
+    "eol-last": ["error", "always"]
+  }
+}

@@ -1,0 +1,45 @@
+version: '3.8'
+
+networks:
+  microservice-network:
+    external:
+      name: microservice-network
+  street-group-network:
+    external:
+      name: street-group-network
+
+services:
+
+  street-group-api-server:
+    image: nginx:stable-alpine
+    container_name: street-group-api-server
+    ports:
+      - "8081:81"
+    volumes:
+      - ./src:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - street-group-api
+    networks:
+      - microservice-network
+      - street-group-network
+
+  street-group-api:
+    build:
+      context: .
+      dockerfile: ${DOCKERFILE}
+    container_name: street-group-api
+    volumes:
+      - ./src:/var/www/html
+    tty: true
+    stdin_open: true
+    working_dir: /var/www/html
+    environment:
+      CLIENT_PORT: ${STREET_GROUP_INTERNAL_PORT}
+      CHOKIDAR_USEPOLLING: true
+      LOCAL_HOST: '0.0.0.0' # Docker local host
+    ports:
+      - ${STREET_GROUP_EXTERNAL_PORT}:${STREET_GROUP_INTERNAL_PORT}
+    networks:
+      - microservice-network
+      - street-group-network
